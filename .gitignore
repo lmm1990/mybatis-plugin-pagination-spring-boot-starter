@@ -29,3 +29,5 @@ hs_err_pid*
 /spring-boot-starter/gradle/wrapper/gradle-wrapper.jar
 /spring-boot-starter/gradle/wrapper
 /mybatis-plugin-pagination-demo/gradle/wrapper
+/config
+/spring-boot-starter/gradle.properties

@@ -1,0 +1,3 @@
+rootProject.name = 'mybatis-plugin-pagination-spring-boot-starter'
+include 'spring-boot-starter'
+include 'mybatis-plugin-pagination-demo'

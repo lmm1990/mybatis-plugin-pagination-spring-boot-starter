@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: mybatis-plugin-pagination
+  profiles:
+    active: local
+mybatis:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    map-underscore-to-camel-case: true
+  tenant-plugin:
+    field-name: a.tenantId
+#    ignore-table-names: test

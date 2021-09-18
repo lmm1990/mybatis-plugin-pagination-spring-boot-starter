@@ -20,8 +20,8 @@ public class PaginationPluginAutoConfiguration {
     }
 
     @Bean
-    @ConditionalOnMissingBean(TenantPluginBeanPostProcessor.class)
-    public TenantPluginBeanPostProcessor tenantPluginBeanPostProcessor() {
-        return new TenantPluginBeanPostProcessor();
+    @ConditionalOnMissingBean(PaginationPluginBeanPostProcessor.class)
+    public PaginationPluginBeanPostProcessor tenantPluginBeanPostProcessor() {
+        return new PaginationPluginBeanPostProcessor();
     }
 }

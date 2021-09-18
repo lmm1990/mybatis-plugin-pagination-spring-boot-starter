@@ -3,13 +3,13 @@ package io.github.lmm1990.spring.boot.starter;
 import io.github.lmm1990.spring.boot.starter.core.PageObjectFactory;
 import io.github.lmm1990.spring.boot.starter.core.PaginationDataHandler;
 import io.github.lmm1990.spring.boot.starter.entity.Page;
-import org.apache.ibatis.session.Configuration;
+import org.mybatis.spring.boot.autoconfigure.MybatisProperties;
 import org.mybatis.spring.mapper.MapperFactoryBean;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.stereotype.Component;
+import org.springframework.util.ReflectionUtils;
 
-import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 
 /**
@@ -19,26 +19,23 @@ import java.lang.reflect.ParameterizedType;
  * @since 2021-09-03 12:02
  */
 @Component
-public class TenantPluginBeanPostProcessor implements BeanPostProcessor {
+public class PaginationPluginBeanPostProcessor implements BeanPostProcessor {
     @Override
     public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
-        if (bean instanceof MapperFactoryBean) {
-            MapperFactoryBean mapperFactoryBean = (MapperFactoryBean) bean;
-
-            Configuration configuration = mapperFactoryBean.getSqlSession().getConfiguration();
-            configuration.setObjectFactory(new PageObjectFactory());
-
-            final String mapperName = mapperFactoryBean.getObjectType().getName();
-            Method[] methods = mapperFactoryBean.getObjectType().getMethods();
-            for (Method method : methods) {
-                if (method.getReturnType().isAssignableFrom(Page.class)) {
-                    Class<?> returnType = (Class<?>) ((((ParameterizedType) method.getGenericReturnType()).getActualTypeArguments()[0]));
-                    PaginationDataHandler.PAGINATION_METHOD_RETURN_TYPES.put(String.format("%s.%s", mapperName, method.getName()), returnType);
-                }
-            }
+        if (bean instanceof MybatisProperties) {
+            MybatisProperties mybatisProperties = (MybatisProperties) bean;
+            mybatisProperties.getConfiguration().setObjectFactory(new PageObjectFactory());
             return bean;
         }
-
+        if (bean instanceof MapperFactoryBean) {
+            MapperFactoryBean mapperFactoryBean = (MapperFactoryBean) bean;
+            final String mapperName = mapperFactoryBean.getObjectType().getName();
+            ReflectionUtils.doWithMethods(mapperFactoryBean.getObjectType(), method -> {
+                Class<?> returnType = (Class<?>) ((((ParameterizedType) method.getGenericReturnType()).getActualTypeArguments()[0]));
+                PaginationDataHandler.PAGINATION_METHOD_RETURN_TYPES.put(String.format("%s.%s", mapperName, method.getName()), returnType);
+            }, method -> method.getReturnType().isAssignableFrom(Page.class));
+            return bean;
+        }
         return bean;
     }
 

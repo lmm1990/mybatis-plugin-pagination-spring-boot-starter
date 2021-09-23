@@ -20,7 +20,7 @@ mybatis 分页插件
 ## Gradle 依赖
 
 ```gradle
-implementation 'io.github.lmm1990:mybatis-plugin-pagination-spring-boot-starter:1.0'
+implementation 'io.github.lmm1990:mybatis-plugin-pagination-spring-boot-starter:1.1'
 ```
 
 ### 在代码中使用

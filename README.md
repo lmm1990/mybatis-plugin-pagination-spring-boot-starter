@@ -1,7 +1,7 @@
 # mybatis-plugin-pagination-spring-boot-starter
 
 mybatis 分页插件
-[![maven](https://img.shields.io/maven-central/v/com.github.lmm1990/jtemplate)](https://mvnrepository.com/artifact/io.github.lmm1990/mybatis-plugin-pagination-spring-boot-starter)
+[![maven](https://img.shields.io/maven-central/v/io.github.lmm1990/mybatis-plugin-pagination-spring-boot-starter)](https://mvnrepository.com/artifact/io.github.lmm1990/mybatis-plugin-pagination-spring-boot-starter)
 [![License](https://img.shields.io/badge/license-Apache%202-green.svg)](https://www.apache.org/licenses/LICENSE-2.0)
 ![java version](https://img.shields.io/badge/JAVA-8+-green.svg)
 
@@ -13,7 +13,7 @@ mybatis 分页插件
 <dependency>
     <groupId>io.github.lmm1990</groupId>
     <artifactId>mybatis-plugin-pagination-spring-boot-starter</artifactId>
-    <version>1.0</version>
+    <version>1.1</version>
 </dependency>
 ```
 

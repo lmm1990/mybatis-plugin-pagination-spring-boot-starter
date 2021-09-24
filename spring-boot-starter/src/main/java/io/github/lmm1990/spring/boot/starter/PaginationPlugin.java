@@ -8,6 +8,7 @@ import io.github.lmm1990.spring.boot.starter.utils.PaginationHelper;
 import org.apache.ibatis.binding.MapperMethod;
 import org.apache.ibatis.cache.CacheKey;
 import org.apache.ibatis.executor.CachingExecutor;
+import org.apache.ibatis.executor.Executor;
 import org.apache.ibatis.executor.result.DefaultResultHandler;
 import org.apache.ibatis.executor.resultset.DefaultResultSetHandler;
 import org.apache.ibatis.executor.resultset.ResultSetHandler;
@@ -48,6 +49,7 @@ import java.util.Locale;
  */
 @Intercepts({
         @Signature(type = StatementHandler.class, method = "prepare", args = {Connection.class, Integer.class}),
+//        @Signature(type = Executor.class, method = "query", args = {MappedStatement.class, Object.class, RowBounds.class, ResultHandler.class}),
         @Signature(type = ResultSetHandler.class, method = "handleResultSets", args = {Statement.class})
 })
 public class PaginationPlugin implements Interceptor {
@@ -75,6 +77,11 @@ public class PaginationPlugin implements Interceptor {
      **/
     @Override
     public Object intercept(Invocation invocation) throws Throwable {
+//        if(invocation.getTarget() instanceof  Executor){
+//            Executor executor = (Executor)invocation.getTarget();
+//            MappedStatement mappedStatement = (MappedStatement)invocation.getArgs()[0];
+//            System.out.println("**************a");
+//        }
         if (invocation.getTarget() instanceof StatementHandler) {
             return rewriteStatementHandler(invocation);
         }
@@ -152,7 +159,7 @@ public class PaginationPlugin implements Interceptor {
      * @since 刘明明/2021-09-07 16:35:32
      **/
     private void rewriteSql(String methodId, MetaObject metaObject) {
-        if (!PaginationDataHandler.PAGINATION_SQLS.containsKey(methodId)) {
+//        if (!PaginationDataHandler.PAGINATION_SQLS.containsKey(methodId)) {
             BoundSql boundSql = (BoundSql) metaObject.getValue("delegate.boundSql");
             String sql = boundSql.getSql();
 
@@ -164,7 +171,7 @@ public class PaginationPlugin implements Interceptor {
             pageSql.append(",");
             pageSql.append(pageInfo.getPageSize());
             PaginationDataHandler.PAGINATION_SQLS.put(methodId, pageSql.toString());
-        }
+//        }
         metaObject.setValue("delegate.boundSql.sql", PaginationDataHandler.PAGINATION_SQLS.get(methodId));
     }
 
@@ -189,10 +196,10 @@ public class PaginationPlugin implements Interceptor {
 
             value = cachingExecutor.query(mappedStatement, new MapperMethod.ParamMap(), rowBounds, resultHandler);
         } else {
-            if (!PaginationDataHandler.COUNT_MAPPED_STATEMENTS.containsKey(methodId)) {
+//            if (!PaginationDataHandler.COUNT_MAPPED_STATEMENTS.containsKey(methodId)) {
                 String countSql = getCountSql(baseBoundSql);
                 PaginationDataHandler.COUNT_MAPPED_STATEMENTS.put(methodId, newMappedStatement(methodId, baseMappedStatement, countSql, baseBoundSql, false));
-            }
+//            }
             MappedStatement mappedStatement = PaginationDataHandler.COUNT_MAPPED_STATEMENTS.get(methodId);
             Object parameter = ((DefaultParameterHandler) metaObject.getValue("parameterHandler")).getParameterObject();
             ResultHandler resultHandler = (ResultHandler) metaObject.getValue("resultHandler");

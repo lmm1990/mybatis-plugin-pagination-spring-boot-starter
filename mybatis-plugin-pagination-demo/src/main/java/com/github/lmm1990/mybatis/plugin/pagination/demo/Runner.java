@@ -24,14 +24,14 @@ public class Runner implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-        System.out.println(testMapper.list());
+//        System.out.println(testMapper.list());
 
         PaginationHelper.init(1,5);
         Page<TestInfo> list1 = testMapper.listByStatus(1);
         System.out.println(JSONArray.toJSONString(list1));
 
         PaginationHelper.init(2,10,"select 999;");
-        Page<TestInfo> list2 = testMapper.listByStatus(1);
+        Page<TestInfo> list2 = testMapper.listByStatus(2);
         System.out.println(JSONArray.toJSONString(list2));
     }
 }

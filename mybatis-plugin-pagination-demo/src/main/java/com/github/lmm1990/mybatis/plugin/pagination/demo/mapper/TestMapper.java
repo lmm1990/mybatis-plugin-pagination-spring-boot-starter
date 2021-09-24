@@ -31,6 +31,6 @@ public interface TestMapper {
      * @return io.github.lmm1990.spring.boot.starter.entity.Page<com.github.lmm1990.mybatis.plugin.pagination.demo.entity.TestInfo>
      * @since 刘明明/2021-09-09 16:42:07
      **/
-    @Select("SELECT id, name, tenantId FROM test where status = #{status}")
+    @Select("SELECT id, name, tenantId FROM test where status = ${status}")
     Page<TestInfo> listByStatus(int status);
 }

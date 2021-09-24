@@ -13,14 +13,14 @@ mybatis 分页插件
 <dependency>
     <groupId>io.github.lmm1990</groupId>
     <artifactId>mybatis-plugin-pagination-spring-boot-starter</artifactId>
-    <version>1.1</version>
+    <version>1.2</version>
 </dependency>
 ```
 
 ## Gradle 依赖
 
 ```gradle
-implementation 'io.github.lmm1990:mybatis-plugin-pagination-spring-boot-starter:1.1'
+implementation 'io.github.lmm1990:mybatis-plugin-pagination-spring-boot-starter:1.2'
 ```
 
 ### 在代码中使用

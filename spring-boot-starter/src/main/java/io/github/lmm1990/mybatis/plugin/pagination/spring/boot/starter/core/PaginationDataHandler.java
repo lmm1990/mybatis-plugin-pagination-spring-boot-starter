@@ -1,4 +1,4 @@
-package io.github.lmm1990.spring.boot.starter.core;
+package io.github.lmm1990.mybatis.plugin.pagination.spring.boot.starter.core;
 
 import org.apache.ibatis.mapping.MappedStatement;
 

@@ -1,6 +1,6 @@
-package io.github.lmm1990.spring.boot.starter.utils;
+package io.github.lmm1990.mybatis.plugin.pagination.spring.boot.starter.utils;
 
-import io.github.lmm1990.spring.boot.starter.entity.PaginationInfo;
+import io.github.lmm1990.mybatis.plugin.pagination.spring.boot.starter.entity.PaginationInfo;
 
 /**
  * 分页helper

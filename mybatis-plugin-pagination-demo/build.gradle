@@ -20,6 +20,7 @@ dependencies {
     implementation group: 'mysql', name: 'mysql-connector-java', version: '8.0.26'
     implementation project(":spring-boot-starter")
     implementation group: 'com.alibaba', name: 'fastjson', version: '1.2.78'
+
 }
 
 test {

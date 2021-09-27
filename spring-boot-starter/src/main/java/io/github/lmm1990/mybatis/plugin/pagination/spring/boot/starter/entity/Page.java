@@ -1,6 +1,6 @@
-package io.github.lmm1990.spring.boot.starter.entity;
+package io.github.lmm1990.mybatis.plugin.pagination.spring.boot.starter.entity;
 
-import io.github.lmm1990.spring.boot.starter.utils.PaginationHelper;
+import io.github.lmm1990.mybatis.plugin.pagination.spring.boot.starter.utils.PaginationHelper;
 import lombok.Data;
 import org.apache.ibatis.reflection.MetaObject;
 import org.apache.ibatis.reflection.factory.ObjectFactory;

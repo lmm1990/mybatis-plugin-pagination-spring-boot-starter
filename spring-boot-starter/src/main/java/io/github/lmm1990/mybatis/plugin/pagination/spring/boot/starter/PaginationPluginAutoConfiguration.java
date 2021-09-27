@@ -1,4 +1,4 @@
-package io.github.lmm1990.spring.boot.starter;
+package io.github.lmm1990.mybatis.plugin.pagination.spring.boot.starter;
 
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;

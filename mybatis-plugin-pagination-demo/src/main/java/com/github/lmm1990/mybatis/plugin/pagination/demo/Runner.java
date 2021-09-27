@@ -1,10 +1,11 @@
 package com.github.lmm1990.mybatis.plugin.pagination.demo;
 
 import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.github.lmm1990.mybatis.plugin.pagination.demo.entity.TestInfo;
 import com.github.lmm1990.mybatis.plugin.pagination.demo.mapper.TestMapper;
-import io.github.lmm1990.spring.boot.starter.entity.Page;
-import io.github.lmm1990.spring.boot.starter.utils.PaginationHelper;
+import io.github.lmm1990.mybatis.plugin.pagination.spring.boot.starter.entity.Page;
+import io.github.lmm1990.mybatis.plugin.pagination.spring.boot.starter.utils.PaginationHelper;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -24,7 +25,7 @@ public class Runner implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-//        System.out.println(testMapper.list());
+        System.out.println(JSONObject.toJSONString(testMapper.get(20)));
 
         PaginationHelper.init(1,5);
         Page<TestInfo> list1 = testMapper.listByStatus(1);

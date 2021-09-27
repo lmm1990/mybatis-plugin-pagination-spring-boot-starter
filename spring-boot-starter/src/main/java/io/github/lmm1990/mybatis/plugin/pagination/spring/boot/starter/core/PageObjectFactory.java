@@ -1,6 +1,6 @@
-package io.github.lmm1990.spring.boot.starter.core;
+package io.github.lmm1990.mybatis.plugin.pagination.spring.boot.starter.core;
 
-import io.github.lmm1990.spring.boot.starter.entity.Page;
+import io.github.lmm1990.mybatis.plugin.pagination.spring.boot.starter.entity.Page;
 import org.apache.ibatis.reflection.factory.DefaultObjectFactory;
 
 import java.util.Collection;

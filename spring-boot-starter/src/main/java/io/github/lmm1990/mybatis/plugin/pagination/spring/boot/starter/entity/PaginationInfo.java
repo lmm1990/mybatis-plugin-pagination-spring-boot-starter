@@ -1,4 +1,4 @@
-package io.github.lmm1990.spring.boot.starter.entity;
+package io.github.lmm1990.mybatis.plugin.pagination.spring.boot.starter.entity;
 
 import lombok.Data;
 

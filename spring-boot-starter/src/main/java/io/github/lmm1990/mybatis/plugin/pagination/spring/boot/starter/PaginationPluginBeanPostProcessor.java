@@ -1,8 +1,8 @@
-package io.github.lmm1990.spring.boot.starter;
+package io.github.lmm1990.mybatis.plugin.pagination.spring.boot.starter;
 
-import io.github.lmm1990.spring.boot.starter.core.PageObjectFactory;
-import io.github.lmm1990.spring.boot.starter.core.PaginationDataHandler;
-import io.github.lmm1990.spring.boot.starter.entity.Page;
+import io.github.lmm1990.mybatis.plugin.pagination.spring.boot.starter.core.PageObjectFactory;
+import io.github.lmm1990.mybatis.plugin.pagination.spring.boot.starter.core.PaginationDataHandler;
+import io.github.lmm1990.mybatis.plugin.pagination.spring.boot.starter.entity.Page;
 import org.mybatis.spring.boot.autoconfigure.MybatisProperties;
 import org.mybatis.spring.mapper.MapperFactoryBean;
 import org.springframework.beans.BeansException;

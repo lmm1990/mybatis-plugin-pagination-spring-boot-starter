@@ -1,10 +1,10 @@
-package io.github.lmm1990.spring.boot.starter;
+package io.github.lmm1990.mybatis.plugin.pagination.spring.boot.starter;
 
-import io.github.lmm1990.spring.boot.starter.core.BoundSqlSqlSource;
-import io.github.lmm1990.spring.boot.starter.core.PaginationDataHandler;
-import io.github.lmm1990.spring.boot.starter.entity.Page;
-import io.github.lmm1990.spring.boot.starter.entity.PaginationInfo;
-import io.github.lmm1990.spring.boot.starter.utils.PaginationHelper;
+import io.github.lmm1990.mybatis.plugin.pagination.spring.boot.starter.core.BoundSqlSqlSource;
+import io.github.lmm1990.mybatis.plugin.pagination.spring.boot.starter.core.PaginationDataHandler;
+import io.github.lmm1990.mybatis.plugin.pagination.spring.boot.starter.entity.Page;
+import io.github.lmm1990.mybatis.plugin.pagination.spring.boot.starter.entity.PaginationInfo;
+import io.github.lmm1990.mybatis.plugin.pagination.spring.boot.starter.utils.PaginationHelper;
 import org.apache.ibatis.binding.MapperMethod;
 import org.apache.ibatis.cache.CacheKey;
 import org.apache.ibatis.executor.CachingExecutor;
@@ -89,26 +89,28 @@ public class PaginationPlugin implements Interceptor {
             DefaultResultSetHandler resultSetHandler = (DefaultResultSetHandler) invocation.getTarget();
             MetaObject metaObject = MetaObject.forObject(resultSetHandler, new DefaultObjectFactory(), new DefaultObjectWrapperFactory(), new DefaultReflectorFactory());
             MappedStatement mappedStatement = ((MappedStatement) metaObject.getValue("mappedStatement"));
+            boolean isPaginationMethod = PaginationDataHandler.PAGINATION_METHOD_RETURN_TYPES.containsKey(mappedStatement.getId());
+            boolean isPaginationCountMethod = mappedStatement.getId().endsWith(COUNT_SQL_METHOD_ID_SUFFIX);
+            if(!isPaginationMethod && !isPaginationCountMethod){
+                return invocation.proceed();
+            }
             // 获取结果映射
             List<ResultMap> resultMaps = mappedStatement.getResultMaps();
             if (resultMaps.isEmpty()) {
                 return invocation.proceed();
             }
+
             Configuration configuration = (Configuration) metaObject.getValue("configuration");
             ResultMap baseResultMap = resultMaps.get(0);
-            if (!baseResultMap.getType().isAssignableFrom(Page.class)) {
-                return invocation.proceed();
-            }
-
-
             Statement statement = (Statement) invocation.getArgs()[0];
             ResultSet resultSet = statement.getResultSet();
             if (resultSet == null) {
                 return invocation.proceed();
             }
+
             DefaultResultHandler resultHandler = new DefaultResultHandler();
             metaObject.setValue("resultHandler", resultHandler);
-            if (mappedStatement.getId().endsWith(COUNT_SQL_METHOD_ID_SUFFIX)) {
+            if (isPaginationCountMethod) {
                 ResultSetWrapper rsw = new ResultSetWrapper(resultSet, configuration);
                 ResultMap resultMap = new ResultMap.Builder(configuration, baseResultMap.getId(), Long.TYPE, baseResultMap.getResultMappings())
                         .discriminator(baseResultMap.getDiscriminator())
@@ -127,8 +129,6 @@ public class PaginationPlugin implements Interceptor {
                     .build();
 
             resultSetHandler.handleRowValues(rsw, resultMap, resultHandler, RowBounds.DEFAULT, null);
-
-
             return resultHandler.getResultList();
         }
         return invocation.proceed();
@@ -267,7 +267,10 @@ public class PaginationPlugin implements Interceptor {
             builder.cache(ms.getCache());
             builder.useCache(ms.isUseCache());
         }
-        builder.resultMaps(ms.getResultMaps());
+
+        builder.resultMaps(new ArrayList<ResultMap>(){{
+            add(new ResultMap.Builder(ms.getConfiguration(), String.format("%s$$return",methodId),Integer.class,new ArrayList<>()).build());
+        }});
         builder.resultSetType(ms.getResultSetType());
 
         builder.flushCacheRequired(ms.isFlushCacheRequired());

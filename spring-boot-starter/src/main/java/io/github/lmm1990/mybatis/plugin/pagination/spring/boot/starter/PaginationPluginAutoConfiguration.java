@@ -15,13 +15,13 @@ public class PaginationPluginAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean(PaginationPlugin.class)
-    public PaginationPlugin transportClient() {
+    public PaginationPlugin paginationPlugin() {
         return new PaginationPlugin();
     }
 
     @Bean
     @ConditionalOnMissingBean(PaginationPluginBeanPostProcessor.class)
-    public PaginationPluginBeanPostProcessor tenantPluginBeanPostProcessor() {
+    public PaginationPluginBeanPostProcessor paginationPluginBeanPostProcessor() {
         return new PaginationPluginBeanPostProcessor();
     }
 }
